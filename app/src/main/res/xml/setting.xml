@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+            android:key="admin"
+            android:title="我的信息"/>
+
+    <SwitchPreference
+            android:key="alarm"
+            android:title="后台运行（消息提醒）"/>
+
+    <Preference
+            android:key="about"
+            android:title="关于"/>
+
+
+    <Preference
+            android:key="re"
+            android:title="切换账户"/>
+
+
+
+</PreferenceScreen>
