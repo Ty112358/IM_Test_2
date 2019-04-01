@@ -14,12 +14,17 @@ abstract class BaseFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {  //在第一步初始化过后再进行的第二次初始化
         init()
+        initListener()
+    }
+
+    open fun initListener() {
+
     }
 
     abstract fun setLayout(): Int   //返回一个xml
 
     open fun init(){    //公共方法
 
-
     }
 }
+

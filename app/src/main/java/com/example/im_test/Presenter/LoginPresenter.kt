@@ -3,8 +3,7 @@ package com.example.im_test.Presenter
 import android.os.Handler
 import android.os.Looper
 import com.example.im_test.Contract.LoginContract
-import com.example.im_test.app.EMcallbackAdapter
-import com.hyphenate.EMCallBack
+import com.example.im_test.Adapter.EMcallbackAdapter
 import com.hyphenate.chat.EMClient
 
 class LoginPresenter(val view: LoginContract.View):LoginContract.Presenter { //继承presenter，输入view
@@ -36,7 +35,7 @@ class LoginPresenter(val view: LoginContract.View):LoginContract.Presenter { //�
 
     private fun LoginServer(name: String,password: String) {
 
-        EMClient.getInstance().login(name,password,object :EMcallbackAdapter(){
+        EMClient.getInstance().login(name,password,object : EMcallbackAdapter(){
 
             override fun onSuccess() {
                 EMClient.getInstance().chatManager().loadAllConversations() //加载所有会话

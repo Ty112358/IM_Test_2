@@ -1,4 +1,4 @@
-package com.example.im_test.app
+package com.example.im_test.Adapter
 
 import com.hyphenate.EMCallBack
 

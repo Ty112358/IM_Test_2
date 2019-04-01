@@ -24,6 +24,7 @@ class LoginActivity: BaseActivity(),LoginContract.View {
             Login()
             true
         }
+        onBackPressed() //屏蔽返回键
     }
 
 //登录
@@ -68,6 +69,10 @@ class LoginActivity: BaseActivity(),LoginContract.View {
     override fun LoginFaild() {
         dissmissProgress()
         toast("登录失败")
+    }
+
+    override fun onBackPressed() {
+        //屏蔽返回键
     }
 
 //写入权限判断

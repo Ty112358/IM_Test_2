@@ -44,7 +44,7 @@ class SplashActivity: BaseActivity(),SplashContract.viewPresenter,ViewPropertyAn
         handler.postDelayed({     //用lambda表达式
             startActivity<LoginActivity>()
             finish()
-        },1000)
+        },0)
 
 
     }

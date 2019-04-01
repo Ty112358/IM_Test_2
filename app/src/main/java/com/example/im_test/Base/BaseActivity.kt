@@ -4,6 +4,8 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.AttributeSet
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import org.jetbrains.anko.inputMethodManager
 import org.jetbrains.anko.progressDialog
@@ -14,11 +16,18 @@ abstract class BaseActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(setLayout())
         init()
+        initListener()
     }
+
+
+    open fun initListener() {
+
+    } //初始化监听
+
 
     abstract fun setLayout(): Int  //需要一个xml文件返回
 
-    open protected fun init(){
+    open fun init(){
 
     }  //公共方法
 
