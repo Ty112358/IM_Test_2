@@ -20,7 +20,7 @@ class GroupPresenter(val view : GroupContract.View):GroupContract.Presenter {
                 group.forEach {
                     //val listItem = GroupListItem(it.groupName,it.groupName[0].toUpperCase()) //取群名称和首字母
 
-                    val listItem = GroupListItem(it.groupName,"课程代码"+it.groupId)
+                    val listItem = GroupListItem(it.groupName,"课程代码: "+it.groupId)
 
                     //判断课程是否已经在数组中,若不在，插入list中
                     if (groupList.contains(listItem)){

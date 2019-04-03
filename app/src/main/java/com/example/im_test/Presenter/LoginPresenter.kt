@@ -22,7 +22,7 @@ class LoginPresenter(val view: LoginContract.View):LoginContract.Presenter { //�
 
         }else view.userNameError()
     }
-
+//主线程
     companion object {
         val handler by lazy {
             Handler(Looper.getMainLooper())
