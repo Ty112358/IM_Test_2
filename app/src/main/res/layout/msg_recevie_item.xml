@@ -21,9 +21,9 @@
 
         <ImageView
                 android:id="@+id/user_icon"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/user1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/user2"
                 android:layout_margin="8dp"
                 android:layout_alignParentLeft="true"/>
 
@@ -42,7 +42,7 @@
                 android:layout_toRightOf="@id/user_icon"
                 android:text="Hello"
                 android:gravity="center"
-                android:background="@drawable/receive_msg_normal"
+                android:background="@drawable/msg"
                 android:padding="5dp" android:layout_marginTop="19dp" android:layout_alignParentTop="true"/>
 
     </RelativeLayout>

@@ -44,7 +44,7 @@ class MainActivity : BaseActivity(),ToolbarManager {
         val fab = findViewById<FloatingActionButton>(R.id.fab_main)
         fab.setOnClickListener {
             toast("日程")
-            startActivity<AlarmActivity>()
+            startActivity<TimeChooseActivity>()
         }
 
     }

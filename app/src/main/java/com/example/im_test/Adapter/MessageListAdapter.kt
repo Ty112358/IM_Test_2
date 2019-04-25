@@ -10,7 +10,6 @@ import com.hyphenate.chat.EMMessage
 
 class MessageListAdapter(val context : Context,val Msgs :List<EMMessage>) :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-
     companion object {
         val TYPE_SEND_MSG =1
         val TYPE_RECEIVE_MSG = 0
@@ -18,7 +17,7 @@ class MessageListAdapter(val context : Context,val Msgs :List<EMMessage>) :Recyc
 
     override fun getItemViewType(position: Int): Int {
 
-        if (Msgs[position] == EMMessage.Direct.RECEIVE){
+        if (Msgs[position] == EMMessage.Direct.SEND){
             return TYPE_SEND_MSG
         }
         else{
@@ -37,7 +36,8 @@ class MessageListAdapter(val context : Context,val Msgs :List<EMMessage>) :Recyc
     override fun getItemCount(): Int = Msgs.size
 
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int){
-
+        val ci = p0.itemView as RecevieMsgItem
+        ci.bindView(Msgs[p1])
     }
 
 

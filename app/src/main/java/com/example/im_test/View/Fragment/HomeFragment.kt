@@ -25,7 +25,6 @@ class HomeFragment:BaseFragment(),GroupContract.View {
             isRefreshing = true
             setColorSchemeResources(R.color.material_deep_teal_500)
             setOnRefreshListener {
-
                 presenter.LoadContacts()
                 toast("加载成功")
             } //下拉监听

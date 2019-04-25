@@ -33,6 +33,9 @@ class LoginPresenter(val view: LoginContract.View):LoginContract.Presenter { //�
         handler.post { f() }
     }
 
+    lateinit var userID : String
+
+
     private fun LoginServer(name: String,password: String) {
 
         EMClient.getInstance().login(name,password,object : EMcallbackAdapter(){
@@ -40,6 +43,7 @@ class LoginPresenter(val view: LoginContract.View):LoginContract.Presenter { //�
             override fun onSuccess() {
                 EMClient.getInstance().chatManager().loadAllConversations() //加载所有会话
                 EMClient.getInstance().groupManager().loadAllGroups() //加载所有群组
+                EMClient.getInstance().groupManager().getJoinedGroupsFromServer()
                 //在主线程通知view
                 uiThread { view.LoginSUccess() }
 
