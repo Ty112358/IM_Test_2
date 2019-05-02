@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.widget.DatePicker
 import cn.aigestudio.datepicker.bizs.calendars.DPCManager
+import cn.aigestudio.datepicker.bizs.decors.DPDecor
 import cn.aigestudio.datepicker.cons.DPMode
 import com.example.im_test.Adapter.EventListAdapter
 import com.example.im_test.Base.BaseActivity
@@ -64,14 +65,17 @@ class TimeChooseActivity:BaseActivity() {
             layoutManager = LinearLayoutManager(context) as RecyclerView.LayoutManager?
             adapter = EventListAdapter(context,eventList)
         }
-
+      //  initdefaultBG()
 
     }
+
+
 
     private fun initdefault() {
         datepicker.apply {
             setDate(year, month)
             setMode(DPMode.SINGLE)
+
         }
     }
 
@@ -161,10 +165,13 @@ class TimeChooseActivity:BaseActivity() {
         }else{
             eventList.add(currentEvent)
             tmpTRAdd(currentEvent.date)
+            tmpAdd(currentEvent.date)
             recycler_event.adapter?.notifyDataSetChanged()
         }
     }
 
+   /* private fun initdefaultBG() {
 
-
+    }
+    */
 }

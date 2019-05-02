@@ -1,19 +1,37 @@
 package com.example.im_test.View.Activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import com.example.im_test.Adapter.MessageListAdapter
 import com.example.im_test.Adapter.MsgListenerAdapter
 import com.example.im_test.Base.BaseActivity
 import com.example.im_test.Contract.ChattingContract
 import com.example.im_test.Presenter.ChattingPresenter
 import com.example.im_test.R
+import com.example.im_test.data.ScoreData
+import com.google.gson.Gson
+import com.hyphenate.chat.EMBase
 import com.hyphenate.chat.EMClient
+import com.hyphenate.chat.EMGroup
 import com.hyphenate.chat.EMMessage
 import kotlinx.android.synthetic.main.chat_activity.*
 import kotlinx.android.synthetic.main.header.*
+import kotlinx.android.synthetic.main.item_score.*
+import kotlinx.android.synthetic.main.item_view.*
+import kotlinx.android.synthetic.main.item_view.view.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
+import org.json.JSONObject
+import java.io.IOException
+import java.util.*
+import okhttp3.Callback as Okhttp3Callback
 
 class ChattingActivity:BaseActivity(),ChattingContract.View {
 
@@ -22,6 +40,10 @@ class ChattingActivity:BaseActivity(),ChattingContract.View {
 
     val presenter = ChattingPresenter(this)
     lateinit var groupname :String
+    //懒加载 当前用户的id
+    val studentID by lazy {
+        EMClient.getInstance().currentUser
+    }
 
 //注册监听器
     val msgListener = object : MsgListenerAdapter() {
@@ -52,6 +74,7 @@ class ChattingActivity:BaseActivity(),ChattingContract.View {
 
     }
 
+
     private fun initRecycler(){
         recycler_chat.apply {
             setHasFixedSize(true)
@@ -80,6 +103,7 @@ class ChattingActivity:BaseActivity(),ChattingContract.View {
     }
 
     private fun initHeader() {
+        initScoreGet()
         header_back.setOnClickListener {
              finish()
              startActivity<MainActivity>()
@@ -131,4 +155,77 @@ class ChattingActivity:BaseActivity(),ChattingContract.View {
         recycler_chat.adapter?.notifyDataSetChanged()
         recycler_chat.scrollToPosition(size)
     }
+//测试：建立http链接
+    private fun initScoreGet() {
+        /*Http.init(this)
+        header_add.setOnClickListener {
+            Http.get{
+                url = "http://47.107.105.126:5001/score"
+                params{
+                    "name" - groupname
+                }
+                onSuccess {
+
+                }
+                onFail {
+                    toast("加载失败")
+                }
+            }*/
+        header_add.setOnClickListener {
+            //加载okhttp
+            val okHttpGet = OkHttpClient()
+            //在子线程中完成，防止假死
+            doAsync {
+                val request = Request.Builder()
+                    .get()
+                    .url("http://47.107.105.126:5001/search?classname=$groupname&id=$studentID")
+                    .build()
+                val response = okHttpGet.newCall(request).execute()
+                if (response.isSuccessful){
+                    //获取json的body
+                    val jsonString = response.body()!!.string()
+                    //调用内置的jsonObject
+                    val strList = JsontOString(jsonString)
+                    //主线程中生成dialog
+                    uiThread {
+                        val dialog = AlertDialog.Builder(it)
+                        //val view = LayoutInflater.from(it).inflate(R.layout.item_score,null)
+                        dialog.setTitle("总成绩："+strList[2])
+                        dialog.setMessage("平时成绩："+strList[0]+"    "+"考试成绩"+strList[1])
+                        //dialog.setView(view)
+                        //score_nomal.text = nomalScore
+                      //  score_exam.text = examScore
+                    //    score_final.text = finalScore
+                        dialog.setPositiveButton("返回",DialogInterface.OnClickListener{ dialogInterface: DialogInterface, i: Int ->
+                            null
+                        })
+                        dialog.show()
+                        print(jsonString)
+                    }
+                }
+                    else{
+                    throw IOException("Unexpected code $response")
+                }
+            }
+
+        }
+    }
+
+    //从json中返回列表
+    private fun JsontOString(jsonString : String): Array<String> {
+        val jsonObj = JSONObject(jsonString)
+        val nomalScore = jsonObj.getString("nomal")
+        val finalScore =jsonObj.getString("final")
+        val examScore = jsonObj.getString("exam")
+        val list = arrayOf(nomalScore,examScore,finalScore)
+
+        return list
+    }
+
+
 }
+
+
+
+
+
